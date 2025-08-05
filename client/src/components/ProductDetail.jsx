@@ -63,7 +63,7 @@ export default function ProductDetail() {
           {product.category && (
             <span className="badge bg-secondary mb-3">{product.category}</span>
           )}
-          <h4 className="text-success mb-3">${product.price.toFixed(2)}</h4>
+          <h4 className="text-success mb-3">${Number(product.price).toFixed(2)}</h4>
           <p className="text-muted mb-4">
             {product.shortDescription || product.description}
           </p>
