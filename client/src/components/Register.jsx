@@ -3,11 +3,15 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import './RegisterModal.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterModal() {
-  const { setUser } = useContext(AuthContext);
-  const [form, setForm]   = useState({ name: '', email: '', password: '' });
-  const [error, setError] = useState('');
+    const { setUser } = useContext(AuthContext);
+    const navigate = useNavigate(); 
+    const [form, setForm] = useState({ name: '', email: '', password: '' });
+    
+    const [error, setError] = useState('');
+    
 
   // Base URL de la API desde variable de entorno
   const API = process.env.REACT_APP_API_URL;
@@ -28,7 +32,8 @@ export default function RegisterModal() {
       setUser(res.data);
       const modalEl = document.getElementById('registerModal');
       const modal   = window.bootstrap.Modal.getInstance(modalEl);
-      modal.hide();
+        modal.hide();
+        navigate('/productos');
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }

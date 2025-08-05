@@ -2,10 +2,12 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 
 export default function LoginModal() {
-  const { setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
+    const navigate = useNavigate(); 
   const [form, setForm]   = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
@@ -28,7 +30,8 @@ export default function LoginModal() {
       setUser(res.data);
       const modalEl = document.getElementById('loginModal');
       const modal   = window.bootstrap.Modal.getInstance(modalEl);
-      modal.hide();
+        modal.hide();
+        navigate('/productos');
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
