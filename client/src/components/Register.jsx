@@ -6,13 +6,11 @@ import './RegisterModal.css';
 
 export default function RegisterModal() {
   const { setUser } = useContext(AuthContext);
-  const [form, setForm]       = useState({ name: '', email: '', password: '' });
-  const [error, setError]     = useState('');
-  const [loading, setLoading] = useState(false);
+  const [form, setForm]   = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
 
   // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL; 
-  // Ejemplo: "https://backend-d7qm.onrender.com"
+  const API = process.env.REACT_APP_API_URL;
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -21,7 +19,6 @@ export default function RegisterModal() {
   const submit = async e => {
     e.preventDefault();
     setError('');
-    setLoading(true);
     try {
       const res = await axios.post(
         `${API}/api/auth/register`,
@@ -34,8 +31,6 @@ export default function RegisterModal() {
       modal.hide();
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -114,10 +109,8 @@ export default function RegisterModal() {
                   <button
                     type="submit"
                     className="btn btn-success w-100 py-2 d-flex justify-content-center align-items-center"
-                    disabled={loading}
                   >
-                    {loading && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
-                    {loading ? 'Registrando...' : 'Registrarse'}
+                    Registrarse
                   </button>
                 </form>
               </div>
