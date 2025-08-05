@@ -17,8 +17,9 @@ const checkoutRouter = require('./routes/checkout');
 const app = express();
 
 // CORS: permite origen dinámico según entorno
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
-//app.use(cors({ origin: FRONTEND_URL, credentials: true }));
+const raw = process.env.FRONTEND_URL || '';
+const FRONTEND_URL = raw.trim().replace(/\/$/, '');  // quita espacios y slash final
+app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 // Sesiones (MySQL Store)
