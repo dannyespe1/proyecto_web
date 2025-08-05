@@ -8,10 +8,14 @@ export default function Cart() {
   const [products, setProducts] = useState({});
   const [loading, setLoading] = useState(true);
 
+  // Base URL de la API desde variable de entorno
+  const API = process.env.REACT_APP_API_URL; 
+  // Ejemplo: "https://backend-d7qm.onrender.com"
+
   useEffect(() => {
     Promise.all([
-      axios.get('/api/products', { withCredentials: true }),
-      axios.get('/api/cart', { withCredentials: true })
+      axios.get(`${API}/api/products`, { withCredentials: true }),
+      axios.get(`${API}/api/cart`,     { withCredentials: true }),
     ])
       .then(([prodRes, cartRes]) => {
         const prodMap = {};
@@ -19,14 +23,18 @@ export default function Cart() {
         setProducts(prodMap);
         setCart(cartRes.data);
       })
-      .catch(console.error)
+      .catch(err => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [API]);
 
   const updateQty = (id, qty) => {
-    axios.post('/api/cart/update', { id, qty }, { withCredentials: true })
-      .then(res => setCart(res.data.cart))
-      .catch(err => alert('Error: ' + err.message));
+    axios.post(
+      `${API}/api/cart/update`,
+      { id, qty },
+      { withCredentials: true }
+    )
+    .then(res => setCart(res.data.cart))
+    .catch(err => alert('Error: ' + err.message));
   };
 
   if (loading) return <p>Cargando carrito…</p>;
@@ -59,7 +67,7 @@ export default function Cart() {
             return (
               <tr key={id}>
                 <td>{p.name}</td>
-                <td>${(parseFloat(p.price) * qty).toFixed(2)}</td>
+                <td>${parseFloat(p.price).toFixed(2)}</td>
                 <td>
                   <input
                     type="number"
@@ -94,7 +102,6 @@ export default function Cart() {
         <h5><strong>Total:</strong> ${total.toFixed(2)}</h5>
       </div>
 
-      {/* Botón para ir al checkout */}
       <div className="mt-3">
         <Link to="/checkout" className="btn btn-success">
           Ir a Checkout
