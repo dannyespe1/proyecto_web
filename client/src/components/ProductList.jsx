@@ -11,7 +11,9 @@ import ProductFilter from './ProductFilter';
 export default function ProductList() {
     const [products, setProducts] = useState([]);
     const [loading,  setLoading]  = useState(true);
-    const [error,    setError]    = useState(null);
+    const [error, setError] = useState(null);
+    
+    const API = process.env.REACT_APP_API_URL;
 
     // Estados de filtro
     const [search,   setSearch]   = useState('');
@@ -20,7 +22,7 @@ export default function ProductList() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/api/products', { withCredentials: true })
+        axios.get('${API}/products', { withCredentials: true })
         .then(res => {
             const prods = res.data.map(p => ({
             ...p,
@@ -35,7 +37,7 @@ export default function ProductList() {
     }, []);
 
     const addToCart = id => {
-        axios.post('/api/cart/add', { id, qty: 1 }, { withCredentials: true })
+        axios.post('${API}/cart/add', { id, qty: 1 }, { withCredentials: true })
         .then(() => alert('✔ Añadido al carrito'))
         .catch(err => alert('✖ Error: ' + err.message));
     };
