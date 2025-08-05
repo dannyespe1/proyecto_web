@@ -1,0 +1,70 @@
+/* client/src/components/VideosSection.css */
+
+/* Scroll-snap para saltar sección a sección */
+.videos-section {
+  scroll-snap-type: y mandatory;
+}
+
+/* Sección de pantalla completa base */
+.video-fullscreen {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  margin-bottom: 20vh;         /* espacio antes de la siguiente sección */
+  scroll-snap-align: start;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Se muestra al revelarse */
+.video-fullscreen.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estilos de intro */
+.fullscreen-sect.intro {
+  justify-content: center;
+  background: #0d1117;
+}
+.intro-text {
+  text-align: center;
+  color: #ffffff;
+  padding: 0 2rem;
+}
+.intro-text h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.intro-text p {
+  font-size: 1.25rem;
+}
+
+/* Vídeo a la izquierda */
+.video-container {
+  flex: 0 0 60%;
+  height: 100%;
+}
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Texto a la derecha */
+.text-container {
+  flex: 0 0 40%;
+  padding: 2rem;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+}
+.text-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.text-container p {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}

@@ -1,0 +1,49 @@
+/* ProductDetail.css */
+
+.product-detail {
+  padding: 2rem 0;
+}
+
+.product-detail .breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.product-detail img {
+  width: auto;
+  height: auto;
+  max-height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.product-detail h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-detail .badge {
+  font-size: 0.9rem;
+  padding: 0.5em 0.75em;
+}
+
+.product-detail h4 {
+  font-size: 1.75rem;
+  color: #28a745;
+  margin-bottom: 1rem;
+}
+
+.product-detail p {
+  line-height: 1.6;
+}
+
+.product-detail .btn-success {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.product-detail hr {
+  border-top: 1px solid #ddd;
+  margin: 2rem 0;
+}

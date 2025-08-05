@@ -1,0 +1,61 @@
+/* client/src/components/NavBar.css */
+
+/* Transición suave al cambiar fondo */
+.transition-navbar {
+  transition: background-color 0.4s ease;
+}
+
+/* Marca (brand) en blanco */
+.navbar .navbar-brand {
+  color: #fff !important;
+}
+
+/* Enlaces de navegación siempre en blanco */
+.navbar .nav-link {
+  color: #fff !important;
+  position: relative;
+  transition: color 0.3s, transform 0.2s;
+}
+
+/* Subrayado animado (opcional: cambiar color si quieres) */
+.navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s;
+}
+
+/* Hover: color claro y efecto */
+.navbar .nav-link:hover {
+  color: #f0f0f0 !important;
+  transform: scale(1.05);
+}
+
+.navbar .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Enlace activo siempre en blanco */
+.navbar .nav-link.active,
+.navbar .nav-link:focus {
+  color: #fff !important;
+}
+
+/* Botones dentro del navbar en blanco */
+.navbar .btn {
+  color: #fff !important;
+}
+
+/* Íconos de Bootstrap Icons en blanco */
+.navbar .bi {
+  color: #fff !important;
+}
+
+/* Fondo gris oscuro opcional */
+.bg-gray-dark {
+  background-color: #343a40 !important;
+}

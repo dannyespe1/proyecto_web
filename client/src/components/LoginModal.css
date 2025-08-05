@@ -1,0 +1,23 @@
+/* client/src/components/LoginModal.css */
+
+    .modal-content {
+    border-radius: 0.75rem;
+    }
+
+    .modal-title {
+    font-weight: 600;
+    }
+
+    .input-group-text {
+    background-color: var(--color-bg);
+    border-right: 0;
+    }
+
+    .form-control {
+    border-left: 0;
+    }
+
+    .btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    }

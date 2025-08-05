@@ -1,0 +1,19 @@
+    .about-us-section {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    }
+
+    .about-us-section .section-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    }
+
+    .about-us-section .about-text {
+    margin-bottom: var(--spacer);
+    line-height: 1.7;
+    }
+
+    .about-us-section .about-image {
+    max-height: 300px;
+    object-fit: cover;
+}

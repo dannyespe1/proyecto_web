@@ -1,0 +1,34 @@
+/* client/src/components/BrandCarousel.css */
+
+.brand-carousel {
+  overflow: hidden;
+}
+
+.brand-track {
+  display: flex;
+  align-items: center;
+  /* Ajusta la duración a tu gusto: 20s, 30s... */
+  animation: scroll 15s linear infinite;
+}
+
+.brand-item {
+  flex: 0 0 auto;
+  width: 250px;    /* espacio reservado por logo */
+  text-align: center;
+}
+
+.brand-item img {
+  max-height: 50px;
+  max-width: 100%;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.brand-item img:hover {
+  opacity: 1;
+}
+
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

@@ -1,0 +1,59 @@
+/* client/src/components/RegisterModal.css */
+
+/* Redondea y separa contenido */
+    .modal-content {
+    border-radius: 0.75rem;
+    }
+
+    /* Asegura que el video cubra completamente */
+    .object-fit-cover {
+    object-fit: cover;
+    }
+
+    /* Encabezado limpio */
+    .modal-header {
+    border: none;
+    padding-bottom: 0;
+    }
+
+    /* Título destacado */
+    .modal-title {
+    font-weight: 600;
+    }
+
+    /* Espaciado interno del formulario */
+    .modal-body {
+    padding-top: 1rem;
+    }
+
+    /* Labels claros */
+    .form-label {
+    font-weight: 500;
+    }
+
+    /* Input groups: icono y campo pegados */
+    .input-group-text {
+    background-color: transparent;
+    border-right: 0;
+    }
+    .form-control {
+    border-left: 0;
+    }
+
+    /* Botón principal */
+    .btn-success {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    }
+
+    /* Ajustes de vídeo */
+    video {
+    display: block;
+    height: 100%;
+    width: 100%;
+    }
+
+    /* Padding general para el formulario */
+    .modal-body form .mb-4 {
+    margin-bottom: 1.5rem;
+    }
