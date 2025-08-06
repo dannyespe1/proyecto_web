@@ -96,12 +96,6 @@ export default function ProductList() {
                   <p className="card-text flex-grow-1">
                     ${p.price.toFixed(2)}
                   </p>
-                  <button
-                    className="btn btn-primary mt-auto"
-                    onClick={e => { e.stopPropagation(); addToCart(p.id); }}
-                  >
-                    Añadir al carrito
-                  </button>
                 </div>
               </div>
             </div>
