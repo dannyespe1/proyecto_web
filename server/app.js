@@ -43,6 +43,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/cart',     cartRouter);
 app.use('/api/auth',     authRouter);
 app.use('/api/checkout', checkoutRouter);
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 // Health check
 app.get('/health', (req, res) => res.sendStatus(200));
