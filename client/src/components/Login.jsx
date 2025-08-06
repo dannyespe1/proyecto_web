@@ -12,7 +12,7 @@ export default function LoginModal() {
   const [error, setError] = useState('');
 
   // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL;
+  const API = process.env.REACT_APP_API_URL || '';
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -60,7 +60,6 @@ export default function LoginModal() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div className="modal-body pt-3">
-                {error && <div className="alert alert-danger py-2">{error}</div>}
                 <form onSubmit={submit}>
                   <div className="mb-4">
                     <label htmlFor="loginEmail" className="form-label">Correo electrónico</label>
