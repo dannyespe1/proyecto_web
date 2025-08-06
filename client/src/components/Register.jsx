@@ -1,3 +1,4 @@
+// client/src/components/RegisterModal.jsx
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
@@ -7,10 +8,10 @@ import './RegisterModal.css';
 
 export default function RegisterModal() {
   const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate    = useNavigate();
 
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm]       = useState({ name: '', email: '', password: '' });
+  const [error, setError]     = useState('');
   const [success, setSuccess] = useState('');
 
   // Base URL de la API desde variable de entorno
@@ -34,15 +35,23 @@ export default function RegisterModal() {
       setUser(res.data);
       setSuccess('¡Registrado con éxito!');
 
-      // Cerrar modal tras mostrar éxito
+      // Dejamos que React pinte el mensaje de éxito...
       setTimeout(() => {
         const modalEl = document.getElementById('registerModal');
         if (modalEl) {
           const bsModal = Modal.getOrCreateInstance(modalEl);
           bsModal.hide();
+
+          // 1) Quitar la clase que bloquea el scroll
+          document.body.classList.remove('modal-open');
+          // 2) Eliminar backdrops residuales
+          document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+
+          // Finalmente navegamos
           navigate('/productos');
         }
       }, 0);
+
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
@@ -70,8 +79,9 @@ export default function RegisterModal() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" />
               </div>
               <div className="modal-body pt-3">
-                {error && <div className="alert alert-danger py-2">{error}</div>}
+                {error   && <div className="alert alert-danger py-2">{error}</div>}
                 {success && <div className="alert alert-success py-2">{success}</div>}
+
                 <form onSubmit={submit}>
                   <div className="mb-4">
                     <label htmlFor="registerName" className="form-label">Nombre completo</label>
@@ -89,6 +99,7 @@ export default function RegisterModal() {
                       />
                     </div>
                   </div>
+
                   <div className="mb-4">
                     <label htmlFor="registerEmail" className="form-label">Correo electrónico</label>
                     <div className="input-group">
@@ -105,6 +116,7 @@ export default function RegisterModal() {
                       />
                     </div>
                   </div>
+
                   <div className="mb-4">
                     <label htmlFor="registerPassword" className="form-label">Contraseña</label>
                     <div className="input-group">
@@ -121,6 +133,7 @@ export default function RegisterModal() {
                       />
                     </div>
                   </div>
+
                   <button
                     type="submit"
                     className="btn btn-success w-100 py-2"
@@ -128,6 +141,7 @@ export default function RegisterModal() {
                     Registrarse
                   </button>
                 </form>
+
               </div>
             </div>
           </div>

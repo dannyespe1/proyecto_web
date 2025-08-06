@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'bootstrap/js/dist/modal';
 import './LoginModal.css';
 
 export default function LoginModal() {
@@ -16,6 +17,7 @@ export default function LoginModal() {
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    setError('');
   };
 
   const submit = async e => {
@@ -28,11 +30,20 @@ export default function LoginModal() {
         { withCredentials: true }
       );
       setUser(res.data);
+
+      // Cerrar modal
       const modalEl = document.getElementById('loginModal');
-      // Asegurar instancia del modal (crea si no existe)
-      const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-      modal.hide();
+      if (modalEl) {
+        const bsModal = Modal.getOrCreateInstance(modalEl);
+        bsModal.hide();
+        // Limpia backdrop y scroll-lock
+        document.body.classList.remove('modal-open');
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+      }
+
+      // Redirigir después de cerrar
       navigate('/productos');
+
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
@@ -57,9 +68,10 @@ export default function LoginModal() {
             <div className="col-lg-7 p-5">
               <div className="modal-header border-0 pb-0">
                 <h5 className="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" />
               </div>
               <div className="modal-body pt-3">
+                {error && <div className="alert alert-danger py-2">{error}</div>}
                 <form onSubmit={submit}>
                   <div className="mb-4">
                     <label htmlFor="loginEmail" className="form-label">Correo electrónico</label>
