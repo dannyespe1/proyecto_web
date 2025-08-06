@@ -9,16 +9,17 @@ export default function Cart() {
   const [loading, setLoading]   = useState(true);
 
   // Base URL de la API desde variable de entorno (o '' para rutas relativas)
-  //const API = process.env.REACT_APP_API_URL || '';
-  //console.log('🛠️ Cart.jsx – usando API:', API || '/ (rutas relativas)');
+  const API = process.env.REACT_APP_API_URL || '';
+  console.log('🛠️ Cart.jsx – usando API:', API || '/ (rutas relativas)');
 
   // Carga inicial de productos y carrito
   useEffect(() => {
-    const fetchProducts = axios.get(`/api/products`, { withCredentials: true });
-    const fetchCart     = axios.get(`/api/cart`,     { withCredentials: true });
+    const fetchProducts = axios.get(`${API}/api/products`, { withCredentials: true });
+    const fetchCart     = axios.get(`${API}/api/cart`,     { withCredentials: true });
 
     Promise.all([fetchProducts, fetchCart])
       .then(([prodRes, cartRes]) => {
+        console.log('🛠️ Cart.jsx – /api/cart response:', cartRes.data);
         // Mapear productos por ID
         const prodMap = {};
         prodRes.data.forEach(p => {
@@ -33,21 +34,25 @@ export default function Cart() {
         setCart(cartRes.data);
       })
       .catch(err => {
+        console.error('🛠️ Cart.jsx – error al cargar:', err);
+        alert('Error cargando carrito: ' + err.message);
       })
       .finally(() => setLoading(false));
-  });
+  }, [API]);
 
   // Función para actualizar cantidad o eliminar
   const updateQty = (id, qty) => {
     axios.post(
-      `/api/cart/update`,
+      `${API}/api/cart/update`,
       { id, qty },
       { withCredentials: true }
     )
     .then(res => {
+      console.log('🛠️ Cart.jsx – /api/cart/update response:', res.data.cart);
       setCart(res.data.cart);
     })
     .catch(err => {
+      console.error('🛠️ Cart.jsx – error al actualizar:', err);
       alert('Error actualizando carrito: ' + err.message);
     });
   };

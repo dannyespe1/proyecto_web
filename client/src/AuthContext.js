@@ -8,18 +8,18 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
   // Base URL de la API desde variable de entorno
-  //const API = process.env.REACT_APP_API_URL|| '';
+  const API = process.env.REACT_APP_API_URL|| '';
   // Ejemplo: "https://backend-d7qm.onrender.com"
 
   // Cargar usuario al iniciar
   useEffect(() => {
     axios.get(
-      `/api/auth/me`,
+      `${API}/api/auth/me`,
       { withCredentials: true }
     )
     .then(res => setUser(res.data))
     .catch(() => setUser(null));
-  });
+  }, [API]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
