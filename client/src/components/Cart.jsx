@@ -126,7 +126,7 @@ export default function Cart() {
       </div>
 
       <div className="mt-3">
-        <Link to="/checkout" className="btn btn-success">
+        <Link to="/checkout" className="btn btn-success btn-lg me-3">
           Ir a Checkout
         </Link>
       </div>

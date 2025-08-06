@@ -18,6 +18,6 @@
     }
 
     .btn-primary {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: rgb(40, 142, 225);
+    border-color: rgb(40, 142, 225);
     }

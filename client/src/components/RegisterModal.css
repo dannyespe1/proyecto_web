@@ -42,8 +42,8 @@
 
     /* Botón principal */
     .btn-success {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color:rgb(18, 186, 18);
+    border-color: rgb(18, 186, 18);
     }
 
     /* Ajustes de vídeo */
