@@ -4,26 +4,43 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
-  const [cart, setCart] = useState({});
+  const [cart, setCart]         = useState({});
   const [products, setProducts] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading]   = useState(true);
 
-  // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL; 
-  // Ejemplo: "https://backend-d7qm.onrender.com"
+  // Base URL de la API desde variable de entorno, o ruta relativa si falta
+  const API = process.env.REACT_APP_API_URL || '';
+
+  // Para depuración: ver en consola qué URL está usando
+  console.log('🛠️ Cart.jsx – API base URL:', API || '(relative)');
 
   useEffect(() => {
-    Promise.all([
-      axios.get(`${API}/api/products`, { withCredentials: true }),
-      axios.get(`${API}/api/cart`,     { withCredentials: true }),
-    ])
+    const productsReq = axios.get(`${API}/api/products`, { withCredentials: true });
+    const cartReq     = axios.get(`${API}/api/cart`,     { withCredentials: true });
+
+    Promise.all([productsReq, cartReq])
       .then(([prodRes, cartRes]) => {
+        // Ver en consola la respuesta del carrito
+        console.log('🛠️ Cart.jsx – /api/cart response:', cartRes.data);
+
+        // Mapear productos por ID para acceso rápido
         const prodMap = {};
-        prodRes.data.forEach(p => { prodMap[p.id] = p; });
+        prodRes.data.forEach(p => {
+          prodMap[p.id] = {
+            ...p,
+            price: typeof p.price === 'string'
+              ? parseFloat(p.price)
+              : p.price
+          };
+        });
+
         setProducts(prodMap);
         setCart(cartRes.data);
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error('🛠️ Cart.jsx – error al cargar carrito:', err);
+        alert('Error cargando carrito: ' + err.message);
+      })
       .finally(() => setLoading(false));
   }, [API]);
 
@@ -33,8 +50,14 @@ export default function Cart() {
       { id, qty },
       { withCredentials: true }
     )
-    .then(res => setCart(res.data.cart))
-    .catch(err => alert('Error: ' + err.message));
+    .then(res => {
+      console.log('🛠️ Cart.jsx – /api/cart/update response:', res.data.cart);
+      setCart(res.data.cart);
+    })
+    .catch(err => {
+      console.error('🛠️ Cart.jsx – error al actualizar carrito:', err);
+      alert('Error actualizando carrito: ' + err.message);
+    });
   };
 
   if (loading) return <p>Cargando carrito…</p>;
@@ -44,18 +67,23 @@ export default function Cart() {
 
   let subtotal = 0;
   items.forEach(([id, qty]) => {
-    subtotal += parseFloat(products[id].price) * qty;
+    const prod = products[id];
+    if (prod) {
+      subtotal += prod.price * qty;
+    }
   });
+
   const tax   = subtotal * 0.12;
   const total = subtotal + tax;
 
   return (
     <main className="container py-5">
+      <h2 className="mb-4">Tu Carrito</h2>
       <table className="table">
         <thead>
           <tr>
             <th>Producto</th>
-            <th>Precio</th>
+            <th>Precio unitario</th>
             <th>Cantidad</th>
             <th>Subtotal</th>
             <th>Acción</th>
@@ -63,11 +91,11 @@ export default function Cart() {
         </thead>
         <tbody>
           {items.map(([id, qty]) => {
-            const p = products[id];
+            const p = products[id] || {};
             return (
               <tr key={id}>
-                <td>{p.name}</td>
-                <td>${parseFloat(p.price).toFixed(2)}</td>
+                <td>{p.name || '—'}</td>
+                <td>${p.price?.toFixed(2) ?? '—'}</td>
                 <td>
                   <input
                     type="number"
@@ -81,7 +109,7 @@ export default function Cart() {
                     }}
                   />
                 </td>
-                <td>${(parseFloat(p.price) * qty).toFixed(2)}</td>
+                <td>${(p.price * qty).toFixed(2)}</td>
                 <td>
                   <button
                     className="btn btn-sm btn-danger"
