@@ -14,7 +14,6 @@ const checkoutRouter = require('./routes/checkout');
 
 const app = express();
 
-
 // CORS: solo tu frontend
 const FRONTEND_URL = (process.env.FRONTEND_URL || '').trim().replace(/\/+$/, '');
 app.use(cors({
@@ -23,7 +22,6 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.set('trust proxy', 1);
 
 app.use(session({
   key:    'sess_carrito',
@@ -43,11 +41,6 @@ app.use('/api/products', productsRouter);
 app.use('/api/cart',     cartRouter);
 app.use('/api/auth',     authRouter);
 app.use('/api/checkout', checkoutRouter);
-
-app.use(express.static(path.join(__dirname, '../client/build')));
-app.use(express.static(path.join(__dirname, '../client/build'), {
-  extensions: ['xml', 'txt']
-}));
 
 // Health check
 app.get('/health', (req, res) => res.sendStatus(200));
