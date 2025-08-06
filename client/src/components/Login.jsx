@@ -29,7 +29,8 @@ export default function LoginModal() {
       );
       setUser(res.data);
       const modalEl = document.getElementById('loginModal');
-      const modal   = window.bootstrap.Modal.getInstance(modalEl);
+      // Asegurar instancia del modal (crea si no existe)
+      const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
       modal.hide();
       navigate('/productos');
     } catch (err) {
