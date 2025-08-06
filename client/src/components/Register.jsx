@@ -8,19 +8,25 @@ import './RegisterModal.css';
 export default function RegisterModal() {
   const { setUser } = useContext(AuthContext);
   const navigate    = useNavigate();
-  const [form, setForm]       = useState({ name: '', email: '', password: '' });
-  const [error, setError]     = useState('');
+
+  const [form, setForm]         = useState({ name: '', email: '', password: '' });
+  const [error, setError]       = useState('');
+  const [success, setSuccess]   = useState('');
 
   // Base URL de la API desde variable de entorno
   const API = process.env.REACT_APP_API_URL || '';
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    // limpiar mensajes al editar
+    setError('');
+    setSuccess('');
   };
 
   const submit = async e => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     try {
       const res = await axios.post(
         `${API}/api/auth/register`,
@@ -29,16 +35,19 @@ export default function RegisterModal() {
       );
       setUser(res.data);
 
-      // Mostrar mensaje de éxito
-      alert('¡Registrado con éxito!');
+      // mensaje de éxito en el modal
+      setSuccess('¡Registrado con éxito!');
 
-      // Cerrar modal
-      const modalEl = document.getElementById('registerModal');
-      const modal   = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-      modal.hide();
+      // ocultar error si quedaba algo
+      setError('');
 
-      // Redirigir
-      navigate('/productos');
+      // tras mostrar el mensaje un momento, cerrar y redirigir
+      setTimeout(() => {
+        const modalEl = document.getElementById('registerModal');
+        const modal   = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.hide();
+        navigate('/productos');
+      }, 800);
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
@@ -49,7 +58,7 @@ export default function RegisterModal() {
       <div className="modal-dialog modal-dialog-centered modal-xl">
         <div className="modal-content p-0 overflow-hidden">
           <div className="row g-0">
-            {/* Video de fondo en lado izquierdo */}
+            {/* Video de fondo */}
             <div className="col-lg-5 d-none d-lg-block">
               <video
                 className="h-100 w-100 object-fit-cover"
@@ -63,10 +72,11 @@ export default function RegisterModal() {
             <div className="col-lg-7 p-5">
               <div className="modal-header border-0 pb-0">
                 <h5 className="modal-title" id="registerModalLabel">Registro de Usuario</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" />
               </div>
               <div className="modal-body pt-3">
-                {error && <div className="alert alert-danger py-2">{error}</div>}
+                {error   && <div className="alert alert-danger py-2">{error}</div>}
+                {success && <div className="alert alert-success py-2">{success}</div>}
                 <form onSubmit={submit}>
                   <div className="mb-4">
                     <label htmlFor="registerName" className="form-label">Nombre completo</label>
