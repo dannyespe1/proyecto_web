@@ -14,6 +14,7 @@ const checkoutRouter = require('./routes/checkout');
 
 const app = express();
 
+
 // CORS: solo tu frontend
 const FRONTEND_URL = (process.env.FRONTEND_URL || '').trim().replace(/\/+$/, '');
 app.use(cors({
@@ -22,6 +23,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.set('trust proxy', 1);
 
 app.use(session({
   key:    'sess_carrito',
