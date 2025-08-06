@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 
 export default function LoginModal() {
-    const { setUser } = useContext(AuthContext);
-    const navigate = useNavigate(); 
+  const { setUser } = useContext(AuthContext);
+  const navigate    = useNavigate();
   const [form, setForm]   = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
@@ -30,8 +30,8 @@ export default function LoginModal() {
       setUser(res.data);
       const modalEl = document.getElementById('loginModal');
       const modal   = window.bootstrap.Modal.getInstance(modalEl);
-        modal.hide();
-        navigate('/productos');
+      modal.hide();
+      navigate('/productos');
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
@@ -95,7 +95,7 @@ export default function LoginModal() {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-primary w-100 py-2 d-flex justify-content-center align-items-center"
+                    className="btn btn-primary w-100 py-2"
                   >
                     Entrar
                   </button>
