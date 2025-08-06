@@ -2,16 +2,14 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import './RegisterModal.css';
 import { useNavigate } from 'react-router-dom';
+import './RegisterModal.css';
 
 export default function RegisterModal() {
-    const { setUser } = useContext(AuthContext);
-    const navigate = useNavigate(); 
-    const [form, setForm] = useState({ name: '', email: '', password: '' });
-    
-    const [error, setError] = useState('');
-    
+  const { setUser } = useContext(AuthContext);
+  const navigate    = useNavigate();
+  const [form, setForm]       = useState({ name: '', email: '', password: '' });
+  const [error, setError]     = useState('');
 
   // Base URL de la API desde variable de entorno
   const API = process.env.REACT_APP_API_URL || '';
@@ -30,10 +28,17 @@ export default function RegisterModal() {
         { withCredentials: true }
       );
       setUser(res.data);
+
+      // Mostrar mensaje de éxito
+      alert('¡Registrado con éxito!');
+
+      // Cerrar modal
       const modalEl = document.getElementById('registerModal');
-      const modal   = window.bootstrap.Modal.getInstance(modalEl);
-        modal.hide();
-        navigate('/productos');
+      const modal   = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.hide();
+
+      // Redirigir
+      navigate('/productos');
     } catch (err) {
       setError(err.response?.data?.error || 'Error inesperado');
     }
@@ -113,7 +118,7 @@ export default function RegisterModal() {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-success w-100 py-2 d-flex justify-content-center align-items-center"
+                    className="btn btn-success w-100 py-2"
                   >
                     Registrarse
                   </button>
