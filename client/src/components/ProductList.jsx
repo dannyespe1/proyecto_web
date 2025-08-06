@@ -20,11 +20,11 @@ export default function ProductList() {
   const navigate = useNavigate();
 
   // Lee la URL base de tu API desde la variable de entorno
-  const API = process.env.REACT_APP_API_URL || ''; 
+  //const API = process.env.REACT_APP_API_URL || ''; 
   // Por ejemplo: "https://backend-d7qm.onrender.com"
 
   useEffect(() => {
-    axios.get(`${API}/api/products`, { withCredentials: true })
+    axios.get(`/api/products`, { withCredentials: true })
       .then(res => {
         const prods = res.data.map(p => ({
           ...p,
@@ -40,7 +40,7 @@ export default function ProductList() {
 
   const addToCart = id => {
     axios.post(
-      `${API}/api/cart/add`,
+      `/api/cart/add`,
       { id, qty: 1 },
       { withCredentials: true }
     )

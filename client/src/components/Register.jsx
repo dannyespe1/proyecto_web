@@ -14,7 +14,7 @@ export default function RegisterModal() {
     
 
   // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL || '';
+  //const API = process.env.REACT_APP_API_URL || '';
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -25,7 +25,7 @@ export default function RegisterModal() {
     setError('');
     try {
       const res = await axios.post(
-        `${API}/api/auth/register`,
+        `/api/auth/register`,
         form,
         { withCredentials: true }
       );

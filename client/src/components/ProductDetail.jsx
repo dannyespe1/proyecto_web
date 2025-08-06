@@ -15,18 +15,18 @@ export default function ProductDetail() {
   const [maxPrice, setMaxPrice] = useState(Infinity);
 
   // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL || ''; 
+  //const API = process.env.REACT_APP_API_URL || ''; 
   // Ejemplo: "https://backend-d7qm.onrender.com"
 
   useEffect(() => {
-    axios.get(`${API}/api/products/${id}`, { withCredentials: true })
+    axios.get(`/api/products/${id}`, { withCredentials: true })
       .then(res => setProduct(res.data))
       .catch(err => setError(err.response?.data?.error || err.message));
   }, [API, id]);
 
   const addToCart = () => {
     axios.post(
-      `${API}/api/cart/add`,
+      `/api/cart/add`,
       { id: product.id, qty: 1 },
       { withCredentials: true }
     )

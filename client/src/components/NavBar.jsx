@@ -13,7 +13,7 @@ export default function NavBar() {
   const [isTransparent, setTransparent] = useState(false);
 
   // Base URL de la API desde variable de entorno
-  const API = process.env.REACT_APP_API_URL || ''; 
+  //const API = process.env.REACT_APP_API_URL || ''; 
   // Ejemplo: "https://backend-d7qm.onrender.com"
 
   // Verificar si estamos en la página de productos
@@ -24,7 +24,7 @@ export default function NavBar() {
   // Refresca el contador del carrito en cada cambio de ruta
   useEffect(() => {
     axios
-      .get(`${API}/api/cart`, { withCredentials: true })
+      .get(`/api/cart`, { withCredentials: true })
       .then(res => {
         const total = Object.values(res.data).reduce((sum, q) => sum + q, 0);
         setCartCount(total);
@@ -41,7 +41,7 @@ export default function NavBar() {
 
   const handleLogout = () => {
     axios
-      .post(`${API}/api/auth/logout`, {}, { withCredentials: true })
+      .post(`/api/auth/logout`, {}, { withCredentials: true })
       .then(() => {
         setUser(null);
         navigate('/');
