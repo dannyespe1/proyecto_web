@@ -36,7 +36,7 @@ export default function ProductList() {
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
-  }, [API]);
+  });
 
   const addToCart = id => {
     axios.post(

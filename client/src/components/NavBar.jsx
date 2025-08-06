@@ -30,7 +30,7 @@ export default function NavBar() {
         setCartCount(total);
       })
       .catch(console.error);
-  }, [location, API]);
+  }, [location.pathname]);
 
   // Transparencia al hacer scroll
   useEffect(() => {

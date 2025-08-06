@@ -22,7 +22,7 @@ export default function ProductDetail() {
     axios.get(`/api/products/${id}`, { withCredentials: true })
       .then(res => setProduct(res.data))
       .catch(err => setError(err.response?.data?.error || err.message));
-  }, [API, id]);
+  }, [id]);
 
   const addToCart = () => {
     axios.post(

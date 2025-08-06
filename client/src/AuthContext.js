@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
     )
     .then(res => setUser(res.data))
     .catch(() => setUser(null));
-  }, [API]);
+  });
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

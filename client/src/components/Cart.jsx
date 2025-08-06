@@ -35,7 +35,7 @@ export default function Cart() {
       .catch(err => {
       })
       .finally(() => setLoading(false));
-  }, [API]);
+  });
 
   // Función para actualizar cantidad o eliminar
   const updateQty = (id, qty) => {
