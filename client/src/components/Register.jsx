@@ -1,55 +1,52 @@
-// client/src/components/RegisterModal.jsx
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'bootstrap/js/dist/modal';
 import './RegisterModal.css';
 
 export default function RegisterModal() {
   const { setUser } = useContext(AuthContext);
-  const navigate    = useNavigate();
+  const navigate = useNavigate();
 
-  const [form, setForm]         = useState({ name: '', email: '', password: '' });
-  const [error, setError]       = useState('');
-  const [success, setSuccess]   = useState('');
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   // Base URL de la API desde variable de entorno
   const API = process.env.REACT_APP_API_URL || '';
 
   const handle = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-    // limpiar mensajes al editar
     setError('');
     setSuccess('');
   };
 
   const submit = async e => {
-  e.preventDefault();
-  setError('');
-  try {
-    const res = await axios.post(
-      `${API}/api/auth/register`,
-      form,
-      { withCredentials: true }
-    );
-    setUser(res.data);
-    setSuccess('¡Registrado con éxito!');
+    e.preventDefault();
+    setError('');
+    try {
+      const res = await axios.post(
+        `${API}/api/auth/register`,
+        form,
+        { withCredentials: true }
+      );
+      setUser(res.data);
+      setSuccess('¡Registrado con éxito!');
 
-    // Dejar que React pinte el alert y luego cerrar el modal
-    setTimeout(() => {
-      const modalEl = document.getElementById('registerModal');
-      if (modalEl) {
-        const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-        modal.hide();
-        navigate('/productos');
-      }
-    }, 0);
-
-  } catch (err) {
-    setError(err.response?.data?.error || 'Error inesperado');
-  }
-};
-
+      // Cerrar modal tras mostrar éxito
+      setTimeout(() => {
+        const modalEl = document.getElementById('registerModal');
+        if (modalEl) {
+          const bsModal = Modal.getOrCreateInstance(modalEl);
+          bsModal.hide();
+          navigate('/productos');
+        }
+      }, 0);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Error inesperado');
+    }
+  };
 
   return (
     <div className="modal fade" id="registerModal" tabIndex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -73,7 +70,7 @@ export default function RegisterModal() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" />
               </div>
               <div className="modal-body pt-3">
-                {error   && <div className="alert alert-danger py-2">{error}</div>}
+                {error && <div className="alert alert-danger py-2">{error}</div>}
                 {success && <div className="alert alert-success py-2">{success}</div>}
                 <form onSubmit={submit}>
                   <div className="mb-4">
