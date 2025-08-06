@@ -43,7 +43,11 @@ app.use('/api/products', productsRouter);
 app.use('/api/cart',     cartRouter);
 app.use('/api/auth',     authRouter);
 app.use('/api/checkout', checkoutRouter);
-app.use(express.static(path.join(__dirname, '../client/public')));
+
+app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/build'), {
+  extensions: ['xml', 'txt']
+}));
 
 // Health check
 app.get('/health', (req, res) => res.sendStatus(200));
