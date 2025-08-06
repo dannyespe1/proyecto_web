@@ -24,34 +24,32 @@ export default function RegisterModal() {
   };
 
   const submit = async e => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    try {
-      const res = await axios.post(
-        `${API}/api/auth/register`,
-        form,
-        { withCredentials: true }
-      );
-      setUser(res.data);
+  e.preventDefault();
+  setError('');
+  try {
+    const res = await axios.post(
+      `${API}/api/auth/register`,
+      form,
+      { withCredentials: true }
+    );
+    setUser(res.data);
+    setSuccess('¡Registrado con éxito!');
 
-      // mensaje de éxito en el modal
-      setSuccess('¡Registrado con éxito!');
-
-      // ocultar error si quedaba algo
-      setError('');
-
-      // tras mostrar el mensaje un momento, cerrar y redirigir
-      setTimeout(() => {
-        const modalEl = document.getElementById('registerModal');
-        const modal   = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+    // Dejar que React pinte el alert y luego cerrar el modal
+    setTimeout(() => {
+      const modalEl = document.getElementById('registerModal');
+      if (modalEl) {
+        const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
         modal.hide();
         navigate('/productos');
-      }, 800);
-    } catch (err) {
-      setError(err.response?.data?.error || 'Error inesperado');
-    }
-  };
+      }
+    }, 0);
+
+  } catch (err) {
+    setError(err.response?.data?.error || 'Error inesperado');
+  }
+};
+
 
   return (
     <div className="modal fade" id="registerModal" tabIndex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
