@@ -39,13 +39,25 @@ export default function ProductList() {
   }, [API]);
 
   const addToCart = id => {
+    const url = `${API}/api/cart/add`;
+    console.log('POST', url);
     axios.post(
-      `${API}/api/cart/add`,
+      url,
       { id, qty: 1 },
       { withCredentials: true }
     )
-    .then(() => alert('✔ Añadido al carrito'))
-    .catch(err => alert('✖ Error: ' + err.message));
+    .then(res => {
+      console.log('Response:', res);
+      if (res.data?.success) {
+        alert('✔ Añadido al carrito');
+      } else {
+        alert('✖ Error: ' + (res.data?.error || 'Respuesta inválida'));
+      }
+    })
+    .catch(err => {
+      console.log('Request error:', err);
+      alert('✖ Error: ' + err.message);
+    });
   };
 
   const filtered = products
