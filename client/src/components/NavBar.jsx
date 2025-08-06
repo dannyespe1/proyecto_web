@@ -94,8 +94,6 @@ export default function NavBar() {
             {[
               { to: '/', label: 'Inicio', icon: 'house-fill' },
               { to: '/productos', label: 'Productos', icon: 'box-seam' },
-              { to: '/ofertas', label: 'Ofertas', icon: 'tag-fill' },
-              { to: '/proximamente', label: 'Próximamente', icon: 'clock-fill' },
             ].map(({ to, label, icon }) => (
               <li className="nav-item" key={to}>
                 <NavLink
