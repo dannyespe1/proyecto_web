@@ -8,22 +8,19 @@ export default function Cart() {
   const [products, setProducts] = useState({});
   const [loading, setLoading]   = useState(true);
 
-  // Base URL de la API desde variable de entorno, o ruta relativa si falta
+  // Base URL de la API desde variable de entorno (o '' para rutas relativas)
   const API = process.env.REACT_APP_API_URL || '';
+  console.log('🛠️ Cart.jsx – usando API:', API || '/ (rutas relativas)');
 
-  // Para depuración: ver en consola qué URL está usando
-  console.log('🛠️ Cart.jsx – API base URL:', API || '(relative)');
-
+  // Carga inicial de productos y carrito
   useEffect(() => {
-    const productsReq = axios.get(`${API}/api/products`, { withCredentials: true });
-    const cartReq     = axios.get(`${API}/api/cart`,     { withCredentials: true });
+    const fetchProducts = axios.get(`${API}/api/products`, { withCredentials: true });
+    const fetchCart     = axios.get(`${API}/api/cart`,     { withCredentials: true });
 
-    Promise.all([productsReq, cartReq])
+    Promise.all([fetchProducts, fetchCart])
       .then(([prodRes, cartRes]) => {
-        // Ver en consola la respuesta del carrito
         console.log('🛠️ Cart.jsx – /api/cart response:', cartRes.data);
-
-        // Mapear productos por ID para acceso rápido
+        // Mapear productos por ID
         const prodMap = {};
         prodRes.data.forEach(p => {
           prodMap[p.id] = {
@@ -33,17 +30,17 @@ export default function Cart() {
               : p.price
           };
         });
-
         setProducts(prodMap);
         setCart(cartRes.data);
       })
       .catch(err => {
-        console.error('🛠️ Cart.jsx – error al cargar carrito:', err);
+        console.error('🛠️ Cart.jsx – error al cargar:', err);
         alert('Error cargando carrito: ' + err.message);
       })
       .finally(() => setLoading(false));
   }, [API]);
 
+  // Función para actualizar cantidad o eliminar
   const updateQty = (id, qty) => {
     axios.post(
       `${API}/api/cart/update`,
@@ -55,7 +52,7 @@ export default function Cart() {
       setCart(res.data.cart);
     })
     .catch(err => {
-      console.error('🛠️ Cart.jsx – error al actualizar carrito:', err);
+      console.error('🛠️ Cart.jsx – error al actualizar:', err);
       alert('Error actualizando carrito: ' + err.message);
     });
   };
@@ -65,14 +62,12 @@ export default function Cart() {
   const items = Object.entries(cart);
   if (items.length === 0) return <p>Tu carrito está vacío.</p>;
 
+  // Cálculo de totales
   let subtotal = 0;
   items.forEach(([id, qty]) => {
     const prod = products[id];
-    if (prod) {
-      subtotal += prod.price * qty;
-    }
+    if (prod) subtotal += prod.price * qty;
   });
-
   const tax   = subtotal * 0.12;
   const total = subtotal + tax;
 
