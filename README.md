@@ -139,6 +139,14 @@ REACT_APP_API_URL=     # URL base del backend (ej. http://localhost:5000)
 
 ## 📦 Despliegue
 
+El proyecto está desplegado en Render:
+
+* **Cliente**: sitio estático en [https://proyecto-web-atv7.onrender.com/](https://proyecto-web-atv7.onrender.com/)
+* **Servidor**: web service en [https://proyecto-web-atv7.onrender.com/](https://proyecto-web-atv7.onrender.com/)
+* **Base de datos remota**: alojada en [https://freedb.tech/](https://freedb.tech/)
+
+Para reproducir localmente:
+
 1. Generar build del frontend:
 
    ```bash
@@ -146,7 +154,12 @@ REACT_APP_API_URL=     # URL base del backend (ej. http://localhost:5000)
    npm run build
    ```
 2. Configurar variables en el servidor.
-3. Desplegar server (puede servir directamente el contenido de `client/build` o usarse un hosting por separado).
+3. Iniciar el backend localmente:
+
+   ```bash
+   cd server
+   npm start
+   ```
 
 ---
 
